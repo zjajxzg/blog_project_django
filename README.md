@@ -1,1 +1,1 @@
-# blog_project-django
+# blog_project_django
