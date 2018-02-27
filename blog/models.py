@@ -16,8 +16,7 @@ class Category(models.Model):
     name = models.CharField(max_length = 100)
     def __str__(self):
         return self.name
-    def get_absolute_url(self):
-        return reverse('blog:detail',kwargs={'pk':self.pk})
+
 
 class Tag(models.Model):
     """
@@ -64,3 +63,5 @@ class Post(models.Model):
     author = models.ForeignKey(User)
     def __str__(self):
         return self.title
+    def get_absolute_url(self):
+        return reverse('blog:detail',kwargs={'pk':self.pk})
