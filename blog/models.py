@@ -2,7 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 
+
 # Create your models here.
+
+
 class Category(models.Model):
     '''
     Django 要求模型必须继承models.Model类
@@ -13,7 +16,8 @@ class Category(models.Model):
     Django 内置的全部类型可查看文档：
     https://docs.djangoproject.com/en/1.10/ref/models/fields/#field-types
     '''
-    name = models.CharField(max_length = 100)
+    name = models.CharField(max_length=100)
+
     def __str__(self):
         return self.name
 
@@ -23,30 +27,32 @@ class Tag(models.Model):
        标签 Tag 也比较简单，和 Category 一样。
        再次强调一定要继承 models.Model 类！
     """
-    name = models.CharField(max_length = 100)
+    name = models.CharField(max_length=100)
+
     def __str__(self):
         return self.name
+
 
 class Post(models.Model):
     """
     文章的数据库表稍微复杂一点，只要是涉及的字段更多
     """
 
-    #文章标题
+    # 文章标题
     title = models.CharField(max_length=70)
 
-    #文章正文，使用TextField,存储大段文本
+    # 文章正文，使用TextField,存储大段文本
     body = models.TextField()
 
-    #这两个列分别表示文章的创建时间和最后一次修改时间
+    # 这两个列分别表示文章的创建时间和最后一次修改时间
     created_time = models.DateTimeField()
     modified_time = models.DateTimeField()
 
-    #文章摘要
-    #英文文章摘要可以存在空值，所以需要设置blank=True,否则会报错
-    excerpt = models.CharField(max_length=200,blank=True)
+    # 文章摘要
+    # 英文文章摘要可以存在空值，所以需要设置blank=True,否则会报错
+    excerpt = models.CharField(max_length=200, blank=True)
 
-    #分类与标签
+    # 分类与标签
     # 我们在这里把文章对应的数据库表和分类、标签对应的数据库表关联了起来，但是关联形式稍微有点不同。
     # 我们规定一篇文章只能对应一个分类，但是一个分类下可以有多篇文章，所以我们使用的是 ForeignKey，即一对多的关联关系。
     # 而对于标签来说，一篇文章可以有多个标签，同一个标签下也可能有多篇文章，所以我们使用 ManyToManyField，表明这是多对多的关联关系。
@@ -54,14 +60,16 @@ class Post(models.Model):
     # 如果你对 ForeignKey、ManyToManyField 不了解，请看教程中的解释，亦可参考官方文档：
     # https://docs.djangoproject.com/en/1.10/topics/db/models/#relationships
     category = models.ForeignKey(Category)
-    tags = models.ManyToManyField(Tag,blank=True)
+    tags = models.ManyToManyField(Tag, blank=True)
 
-    #文章作者
+    # 文章作者
     # django.contrib.auth 是 Django 内置的应用，专门用于处理网站用户的注册、登录等流程，User 是 Django 为我们已经写好的用户模型。
     # 这里我们通过 ForeignKey 把文章和 User 关联了起来。
     # 因为我们规定一篇文章只能有一个作者，而一个作者可能会写多篇文章，因此这是一对多的关联关系，和 Category 类似。
     author = models.ForeignKey(User)
+
     def __str__(self):
         return self.title
+
     def get_absolute_url(self):
-        return reverse('blog:detail',kwargs={'pk':self.pk})
+        return reverse('blog:detail', kwargs={'pk': self.pk})
