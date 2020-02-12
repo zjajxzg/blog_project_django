@@ -1,6 +1,6 @@
 certifi==2018.1.18
 chardet==3.0.4
-Django==1.10.6
+Django==1.11.28
 django-haystack==2.8.0
 idna==2.6
 jieba==0.39
